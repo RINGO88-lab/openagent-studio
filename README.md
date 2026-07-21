@@ -1,47 +1,73 @@
- OpenAgent Studio
+# AI 股票分析助手
 
-> AI Agent 桌面应用 —— 上传文档、AI 问答、自动化报告
+> 桌面级 AI 股票分析工具 —— 实时行情、AI 分析、Agent 日报、交易行为诊断
 
 ## 项目简介
 
-OpenAgent Studio 是一个集成了 RAG 知识库、AI 对话、Agent 工作流的桌面应用。
+一款集成行情数据、AI 智能分析、RAG 财报解析、Agent 自动化日报、个人交易行为诊断的桌面股票分析工具。
 
 ## 技术栈
 
 | 模块 | 技术 |
 |------|------|
 | 后端 | Python, FastAPI |
-| 前端 | Streamlit + pywebview |
+| 前端 | Streamlit + pywebview（桌面端） |
+| 数据 | akshare（行情）、爬虫（新闻） |
+| 可视化 | mplfinance, Plotly |
 | 数据库 | MySQL, SQLAlchemy |
-| AI | Ollama, DeepSeek API, LangChain |
-| Agent | LangGraph, MCP |
-| 部署 | Docker, docker-compose |
+| 缓存 | Redis |
+| AI | DeepSeek API, LangChain |
+| RAG | LangChain + ChromaDB（财报解析） |
+| Agent | LangGraph（日报/复盘自动化） |
+| 部署 | Docker, docker-compose, Linux |
+| 工程 | Git, Pytest, asyncio, WebSocket |
 
 ## 功能
 
-- 用户系统（注册/登录/JWT 认证）
-- AI 多轮对话（支持多模型切换）
-- RAG 知识库（上传 PDF/Word）
-- Agent 工作台（单 Agent + 多 Agent 协作）
-- MCP 工具集（Excel 分析 + Word 报告）
-- Docker 一键部署
+### 行情与图表
+- 自选股管理 + 实时行情（akshare 接入东方财富）
+- K 线图（日/周/月） + MACD/RSI/KDJ 技术指标
+- 分时图 + 板块资金流向
+
+### AI 智能分析
+- 新闻舆情分析（爬取新闻 + AI 利好利空判断）
+- 财报 PDF 解析（RAG 提取营收/利润/毛利率等指标）
+- AI 综合评分（基本面 + 技术面 + 舆情面）
+- AI 买卖参考（结合技术形态 + 策略回测胜率）
+
+### Agent 自动化
+- 早报 Agent（开盘前抓新闻 + AI 分析 + 推送）
+- 复盘 Agent（收盘后自动分析当日走势）
+
+### 个人交易行为分析（核心亮点）
+- 导入券商交割单（PDF/Excel 解析）
+- 胜率 / 盈亏比 / 最大回撤统计
+- 错误行为识别：追涨杀跌、扛单、卖飞
+- AI 改进建议
+
+### 持仓与预警
+- 投资组合管理（持仓/盈亏/收益率）
+- 策略回测（验证买卖策略的历史表现）
+- 预警系统（涨跌 / 金叉死叉 / 异动提醒）
 
 ## 快速开始
 
-`ash
-git clone https://github.com/RINGO88-lab/openagent-studio.git
-cd openagent-studio
-pip install -r requirements.txt
-python run.py
+`
+git clone https://github.com/RINGO88-lab/ai-stock-assistant.git
+cd ai-stock-assistant
+docker-compose up
 `
 
-## 项目迭代
+## 项目结构
 
-| 版本 | 功能 |
-|------|------|
-| V0.1 | 控制台用户管理 |
-| V0.2 | 模块化重构 + JSON 持久化 |
-| V1.0 | Web 版 + 数据库 + JWT |
-| V2.0 | AI 聊天 |
-| V3.0 | RAG + Agent |
-| V4.0 | 多 Agent + MCP |
+`
+ai-stock-assistant/
+├── backend/
+│   ├── api/           # FastAPI 接口
+│   ├── services/      # AI / RAG / Agent 逻辑
+│   ├── data/          # 数据获取（akshare/爬虫）
+│   └── models/        # 数据库模型
+├── frontend/          # Streamlit 界面
+├── docs/
+└── docker-compose.yml
+`
