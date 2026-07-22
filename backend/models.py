@@ -1,61 +1,65 @@
-user = {}
-def user_reg():
-    while True:
-        user_account = input("请输入账号：")
-        user_password = input("请输入密码")
-        if user_account in user:
-            print("该用户已被注册！重新注册")
-            continue
-        user[user_account] = user_password
-        print("注册成功！")
-        break
+class UserManager:
+    def __init__(self):
+        self.users = {}
 
-def login():
-        max_attempts = 3
-        attempts = 0
-        while attempts < max_attempts:
-            user_account = input("请输入账号")
-            user_password = input("请输入密码")
-            if user_account in user and user_password == user[user_account]:
-                return '登录成功'
-            else:
-                attempts += 1
-                print(f'账号或密码错误，还剩{max_attempts - attempts}次机会')
-        return '已禁止登录'
-
-
-def change_password():
-    while True:
-        account = input("请输入账号：")
-        if account not in user:
-            print("账号不存在")
-            continue
-        else:
-            password = input("请输入旧密码")
-        if password == user[account]:
-            new_password = input("请输入修改后的密码")
-            user[account] = new_password
-            print("修改成功")
+    def user_reg(self):
+        while True:
+            a = input("请输入账号：")
+            p = input("请输入密码：")
+            if a in self.users:
+                print("已存在")
+                continue
+            self.users[a] = p
+            print("注册成功")
             break
 
+    def login(self):
+        for i in range(3):
+            a = input("请输入账号：")
+            p = input("请输入密码：")
+            if a in self.users and self.users[a] == p:
+                return "登录成功"
+        return "已禁止登录"
 
-def delete():
-    account = input("请输入账号：")
-    if account not in user:
-        print("账号不存在")
-        return
-    confirm = input(f"确认删除 {account}？(输入yes确认)：")
-    if confirm == "yes":
-        del user[account]
-        print("删除成功")
-    else:
-        print("已取消")
+    def change_password(self):
+        while True:
+            a = input("请输入账号：")
+            if a not in self.users:
+                print("不存在")
+                continue
+            p = input("请输入旧密码：")
+            if p == self.users[a]:
+                self.users[a] = input("请输入新密码：")
+                print("修改成功")
+                break
 
+    def delete(self):
+        a = input("请输入账号：")
+        if a not in self.users:
+            print("不存在")
+            return
+        c = input("确认删除？(y/n)：")
+        if c == "y":
+            del self.users[a]
+            print("删除成功")
 
-def list_users():
-    if not user:
-        print("暂无用户")
-        return
-    print("用户列表：")
-    for u in user:
-        print(f"  {u}")
+    def list_users(self):
+        if not self.users:
+            print("暂无用户")
+            return
+        for u in self.users:
+            print(u)
+
+def main():
+    um = UserManager()
+    while True:
+        c = input("1登录 2退出 3注册 4改密 5删除 6查看：")
+        if c == "1": print(um.login())
+        elif c == "2": break
+        elif c == "3": um.user_reg()
+        elif c == "4": um.change_password()
+        elif c == "5": um.delete()
+        elif c == "6": um.list_users()
+
+if __name__ == "__main__":
+    main()
